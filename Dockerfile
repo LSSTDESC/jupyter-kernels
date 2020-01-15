@@ -50,7 +50,8 @@ RUN curl -sSL https://repo.continuum.io/miniconda/Miniconda3-4.7.12.1-Linux-x86_
     conda update conda && \
     conda clean --all --yes 
     
-RUN pip install astropy==3.2.3 && \
+RUN source scl_source enable devtoolset-8 && \
+    pip install astropy==3.2.3 && \
     pip install bokeh && \ 
     pip install camb  && \
     pip install https://github.com/yymao/FoFCatalogMatching/archive/v0.1.0.tar.gz && \
