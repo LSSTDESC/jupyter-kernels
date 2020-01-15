@@ -66,27 +66,53 @@ RUN source scl_source enable devtoolset-8 && \
     pip install emcee && \
     pip install extinction && \
     pip install fastparquet && \
+    pip install fast3tree && \
+    pip install fits2hdf && \
     pip install fitsio && \
     pip install google-cloud-bigquery && \
     pip install healpy && \
     pip install https://bitbucket.org/yymao/helpers/get/v0.3.2.tar.gz && \
     pip install holoviews && \
-    pip install pyarrow==0.13.0 && \
     pip install ipykernel jupyter_console && \
     pip install ipympl && \
     pip install ipywidgets && \
-    pip install markupsafe nose && \
+    pip install markupsafe && \
+    pip install matplotlib && \
+    pip install nose && \
+    pip install numpy && \
+    pip install pandas && \
+    pip install psycopg2-binary && \
+    pip install pyarrow==0.13.0 && \
+    export PYMSSQL_BUILD_WITH_BUNDLED_FREEETDS=1 && \
+    pip install pymssql && \
+    pip install pytest && \
+    pip install pyyaml && \
     pip install scikit-image && \
+    pip install scikit-learn && \
+    pip install scipy && \
     pip install seaborn && \
     pip install git+https://github.com/msimet/Stile && \
     pip install tables && \
     pip install TreeCorr==4.0.8
 
+RUN echo "Finish Installing fast3tree" && \
+    /bin/bash -c 'source scl_source enable devtoolset-8; \
+                 echo -e "from fast3tree.make_lib import make_lib\nmake_lib(3, True)\nmake_lib(3, False)\nmake_lib(2, True)\nmake_lib(2, False)" >> /tmp/install_fast3tree.py; \
+                 python /tmp/install_fast3tree.py'
 
-   #               pip install -c $LSST_STACK_DIR/require.txt fast3tree; \
-   #               export PYMSSQL_BUILD_WITH_BUNDLED_FREEETDS=1; \
-   #               pip install -c $LSST_STACK_DIR/require.txt pymssql; \
-   #               pip install -c $LSST_STACK_DIR/require.txt psycopg2-binary; \
+RUN echo "Installing CatalogMatcher" && \
+    /bin/bash -c 'source scl_source enable devtoolset-8; \
+                 git clone https://github.com/LSSTDESC/CatalogMatcher.git /tmp/CatalogMatcher; \
+                 cd /tmp/CatalogMatcher; \
+                 python setup.py install'
+
+RUN echo "Installing GCR packages" && \
+    /bin/bash -c 'source scl_source enable devtoolset-8; \
+                  pip install GCR==0.8.8; \
+                  pip install https://github.com/LSSTDESC/gcr-catalogs/archive/v0.14.5.tar.gz' 
+
+ENV HDF5_USE_FILE_LOCKING FALSE
+  
    #               conda install -y --no-update-dependencies swig; \
    #               setup fftw; \
    #               setup gsl; \
