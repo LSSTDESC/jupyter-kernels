@@ -37,9 +37,9 @@ RUN yum update -y && \
     sed \
     tar \
     which \
-    zlib-devel \
-    devtoolset-8-gcc \
-    devtoolset-8-gcc-c++
+    zlib-devel 
+    
+RUN yum install -y devtoolset-8
     
 RUN yum clean -y all && \
     rm -rf /var/cache/yum && \
