@@ -7,6 +7,7 @@ RUN yum update -y && \
     blas \
     bzip2 \
     bzip2-devel \
+    centos-release-scl \
     cmake \
     curl \
     flex \
